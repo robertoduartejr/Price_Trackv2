@@ -1,0 +1,41 @@
+{% extends 'main/base.html' %}
+
+{%block content%}
+
+<a href="{% url 'track.novo' %}" >Novo Track</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Site</th>
+                <th>Preço Desejado</th>
+                <th>Ativa</th>
+                <th>Açoes</th>
+            </tr>
+        </thead>
+            <tbody>
+                    {% for track in object_list %}
+                    <tr>
+                        <td>{{track.name}}</td>
+                        <td>{{track.site}}</td>
+                        <td>{{track.desired_price}}</td>
+                        <td>
+                            {% if track.ativa %}
+                            Sim
+                            {% else %}
+                            Não
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'track.index' %}">Editar</a>
+                            <a href="{% url 'track.index' %}">Remover</a>
+                            <a href="{% url 'track.index' %}">Gráfico</a>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+            </tbody>
+    </table>
+
+{%endblock content%}
