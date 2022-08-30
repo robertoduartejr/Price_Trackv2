@@ -29,7 +29,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['pricetrackdjangov2.herokuapp.com']
+ALLOWED_HOSTS = ['pricetrackdjangov2.herokuapp.com','127.0.0.1']
 
 
 # Application definition
@@ -85,9 +85,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': 'WKz5RYbjh1RvFOwZqIxJ',
-        'HOST': 'containers-us-west-89.railway.app',
-        'PORT': '5508',
+        'PASSWORD': 'Xh4uyWdAchkOnvvWE74X',
+        'HOST': 'containers-us-west-36.railway.app',
+        'PORT': '6664',
     }
 }
 
@@ -109,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
+AUTH_USER_MODEL = 'main.CustomUser'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/

@@ -6,6 +6,10 @@ from django.contrib.postgres.fields import ArrayField
 from django.db.models import JSONField
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.conf import settings
+
+import main.models
+
 
 class NameField(models.CharField): #function
 
@@ -13,10 +17,10 @@ class NameField(models.CharField): #function
         return str(value).capitalize()
 
 SITE_CHOICES = (
-    ('mercado_livre','Mercado Livre'),
-    ('amazon','Amazon'),
-    ('magazine_luiza','Magazine Luiza'),
-    ('americanas','Americanas')
+    ('Mercado Livre','Mercado Livre'),
+    ('Amazon','Amazon'),
+    ('Magazine Luiza','Magazine Luiza'),
+    ('Americanas','Americanas')
 )
 
 
@@ -28,7 +32,7 @@ class Track(models.Model):
     desired_price = models.FloatField(default=10.0)
     prices = models.JSONField(null=True)
     ativa = models.BooleanField(default=True)
-    user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null=True)
 
     def __str__(self):
         return self.name
