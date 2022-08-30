@@ -1,6 +1,11 @@
 {% extends 'main/base.html' %}
 
 {%block content%}
+<form method="GET">
+    <input type="text" name="nome" placeholder="Buscar por nome"/>
+    <input type="submit" value="Buscar"/>
+</form>
+
 
 <a href="{% url 'track.novo' %}" >Novo Track</a>
 
@@ -28,8 +33,8 @@
                             {% endif %}
                         </td>
                         <td>
-                            <a href="{% url 'track.index' %}">Editar</a>
-                            <a href="{% url 'track.index' %}">Remover</a>
+                            <a href="{% url 'track.editar' track.pk  %}">Editar</a>
+                            <a href="{% url 'track.remover' track.pk %}">Remover</a>
                             <a href="{% url 'track.index' %}">Gráfico</a>
                         </td>
 
