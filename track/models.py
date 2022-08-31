@@ -28,7 +28,7 @@ class Track(models.Model):
     name = NameField(max_length=100)
     pub_date = models.DateTimeField('date published',default=timezone.now)
     url = models.URLField(max_length=500)
-    site = models.CharField(max_length=14,choices=SITE_CHOICES,default='Mercado Livre')
+    site = models.CharField(max_length=14,choices=SITE_CHOICES)
     desired_price = models.FloatField(default=10.0)
     prices = models.JSONField(null=True)
     ativa = models.BooleanField(default=True)

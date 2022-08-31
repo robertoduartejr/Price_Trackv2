@@ -2,13 +2,25 @@
 
 {%block content%}
 <h1>Log In</h1>
+
+<div class="form-group">
 <form method="POST">
     {% csrf_token %}
-    {{form.as_p}}
-    <button class="btn btn-primary" type="submit">Sign Up</button>
+
+     <div class="mb-3 row">
+        <input type="text" class="form-control" name="username" placeholder="Username">
+    </div>
+
+    <div class="mb-3 row">
+      <input type="password" class="form-control" name="password" placeholder="Password">
+    </div>
+
+
+    <button class="btn btn-primary" type="submit">Log In</button>
     </form>
 
-<p class="text">Are you not registered?
+<p class="text">Not registered?
     <a href="/accounts/register">Sign Up</a>.
 </p>
+</div>
 {%endblock content%}

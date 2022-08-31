@@ -31,7 +31,7 @@ def register(request):
     return render(request, template_name='main/register.html', context=context)
 
 
-
+#tudo abaixo não esta sendo utilizado, mas é uma forma de resolver
 class UserCreateView(CreateView):  #utilizei essa classe ao inves do metodo register do video
     model = CustomUser
     form_class = NovoUsuarioForm
