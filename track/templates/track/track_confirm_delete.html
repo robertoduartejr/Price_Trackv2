@@ -1,5 +1,11 @@
+{% extends 'main/base.html' %}
+
+{%block content%}
+
 <form method="post">
     {% csrf_token %}
     <p>Confirma que quer remover "{{object}}"?</p>
     <input type="submit" value="Confirmar">
 </form>
+
+{%endblock content%}

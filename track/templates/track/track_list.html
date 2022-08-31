@@ -1,6 +1,7 @@
 {% extends 'main/base.html' %}
 
 {%block content%}
+{% include 'main/menu.html' %}
 <form method="GET">
     <input type="text" name="nome" placeholder="Buscar por nome"/>
     <input type="submit" value="Buscar"/>

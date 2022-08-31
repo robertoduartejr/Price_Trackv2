@@ -1,6 +1,7 @@
 {% extends 'main/base.html' %}
 
 {%block content%}
+{% include 'main/menu.html' %}
 <form method="post">
     {% csrf_token %}
     {{ form.as_p}}
