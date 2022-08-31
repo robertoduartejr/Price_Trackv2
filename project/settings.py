@@ -134,3 +134,11 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGOUT_REDIRECT_URL = '/main'
+
+#SMTP config
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'email-smtp.us-east-1.amazonaws.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'AKIAYSEGMFQG3YLCJZO5'
+EMAIL_HOST_PASSWORD = 'BG7QoU5RB9S1bMNDETGOB2H8DVAWaUKjfPcvY8aRgDLa'

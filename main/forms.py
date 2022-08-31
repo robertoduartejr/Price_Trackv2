@@ -13,6 +13,7 @@ class NovoUsuarioForm(UserCreationForm):
     def save(self, commit=True): #redefiniu o metodo save pq quero fazer algo a mais que simplesmente salvar
         user = super(NovoUsuarioForm, self).save(commit=False)
         user.email = self.cleaned_data['email']
-        if commit:
+        if commit: #trabalhar aqui com a ideia de mandar o email
             user.save()
         return user
+
