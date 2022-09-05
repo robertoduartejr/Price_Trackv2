@@ -22,7 +22,16 @@ def send_email_price(email,desired_price, price, name,user,link):
     send_mail(f'{name} below R$ {desired_price}!!! ',f'Dear, {user}.\n\nThe price of {name} is R$ {price}.\n\nIt is below the one you set as desired (R$ {desired_price})\n\nI suggest you run in order not to miss the chance. \n\n Item link: {link}\n\nAtt, Track Price team.','trackpricedjango@gmail.com', [email], fail_silently=False)
 
 def scraping(link): #function to perform scrapping
-    navegador = webdriver.Chrome()
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--no-sandbox")
+    navegador = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+
+
+
+
     navegador.get(link)
     if 'amazon' in link:
         elemento = float(navegador.find_element(By.XPATH, '//*[@id="corePrice_feature_div"]/div/span/span[2]/span[2]').text.replace(".",""))
@@ -78,7 +87,7 @@ def waiting():
 
 def scrapingscheduler():  #function to run the scraping in intervals
     scheduler = BlockingScheduler()
-    scheduler.add_job(lambda: updatescraping(Track), 'interval', minutes=2)
+    scheduler.add_job(lambda: updatescraping(Track), 'interval', seconds=10)
     scheduler.start()
 
 def scrapingscheduler2():  # function to run the scraping in intervals
