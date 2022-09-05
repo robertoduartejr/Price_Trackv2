@@ -14,7 +14,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from datetime import datetime
-from backendfunctions import send_email_price,scrapingscheduler,scraping,updatescraping
+#from backendfunctions import send_email_price,scrapingscheduler,scraping,updatescraping
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
 
