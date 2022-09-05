@@ -1,17 +1,7 @@
 from django.apps import AppConfig
 import sys
-import threading
-from apscheduler.schedulers.blocking import BlockingScheduler
 
 #SOLUTION TO RUN CODE, HOWEVER I'M USING ANOTHER SOLUTION AT WSGI FILE
-def waiting():
-   for i in range(2000):
-       print(i)
-
-def scrapingscheduler2():  # function to run the scraping in intervals
-    scheduler = BlockingScheduler()
-    scheduler.add_job(waiting, 'interval', seconds=5)
-    scheduler.start()
 
 
 class MainConfig(AppConfig):
@@ -24,5 +14,17 @@ class MainConfig(AppConfig):
         if 'runserver' not in sys.argv:
             return True
 
-        thread = threading.Thread(target=scrapingscheduler2)
+        from backendfunctions import scrapingscheduler
+        import threading
+        from selenium import webdriver
+        import os
+
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.add_argument("--no-sandbox")
+        driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+
+        thread = threading.Thread(target=scrapingscheduler)
         thread.start()
