@@ -74,5 +74,5 @@ def updatescraping(Track):
 
 def scrapingscheduler():  #function to run the scraping in intervals
     scheduler = BlockingScheduler()
-    scheduler.add_job(lambda: updatescraping(Track), 'interval', hours=2)
+    scheduler.add_job(lambda: updatescraping(Track), 'interval', minutes=5)
     scheduler.start()
