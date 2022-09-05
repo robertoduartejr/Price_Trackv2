@@ -3,7 +3,7 @@
 {%block content%}
 
 <div class="form-group">
-    <h1>Sign Up</h1>
+    <h1>{{json}}</h1>
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}

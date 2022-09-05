@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import render
 from .models import Track
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
@@ -39,3 +40,9 @@ class TrackUpdateView(UpdateView):
 class TrackDeleteView(DeleteView):
     model = Track
     success_url = '/tracks'
+
+def chart(request, pk):
+    tracks = Track.objects.filter(pk=pk)
+    tracks = tracks.first()
+    tracks = tracks.prices["data"]
+    return render(request, 'track/chart.html',{'tracks': tracks})

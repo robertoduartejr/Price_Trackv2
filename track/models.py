@@ -7,9 +7,15 @@ from django.db.models import JSONField
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.conf import settings
+from datetime import datetime
 
 import main.models
 
+
+def get_default_json():
+    first = datetime.now()
+    first = first.strftime("%B %d, %Y %A, %H:%M:%S")
+    return {"data": [["date", "price"], [first, 100]]}
 
 class NameField(models.CharField): #function
 
@@ -30,7 +36,7 @@ class Track(models.Model):
     url = models.URLField(max_length=500)
     site = models.CharField(max_length=14,choices=SITE_CHOICES)
     desired_price = models.FloatField(default=10.0)
-    prices = models.JSONField(null=True)
+    prices = models.JSONField(null=True, default=get_default_json)
     ativa = models.BooleanField(default=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null=True)
 

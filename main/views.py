@@ -23,11 +23,11 @@ def register(request):
             #if user != None: @ it's a way to check if I saved or not
             login(request, user)
             messages.success(request, "Seja bem-vindo ao Track Price. Em breve receberá um email com a confirmação do cadastro!")
-            #send_email_confirmation(form) #tirar comentario dps q a amazon liberar
+            send_email_confirmation(form) #tirar comentario dps q a amazon liberar
             return redirect('home')
         messages.error(request, "Falha no cadastro do usuário.")
     form = NovoUsuarioForm()
-    context = {'form': form}
+    context = {'form': form, 'json': "teste"}
     return render(request, template_name='main/register.html', context=context)
 
 

@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+from decouple import config
 
 load_dotenv()
 
@@ -85,9 +86,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': 'Xh4uyWdAchkOnvvWE74X',
-        'HOST': 'containers-us-west-36.railway.app',
-        'PORT': '6664',
+        'PASSWORD': config('DATABASE_PASSWORD'),
+        'HOST': 'containers-us-west-62.railway.app',
+        'PORT': '5810',
     }
 }
 
@@ -137,10 +138,10 @@ LOGOUT_REDIRECT_URL = '/main'
 
 #SMTP config
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'email-smtp.us-east-1.amazonaws.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'AKIAYSEGMFQG3YLCJZO5'
-EMAIL_HOST_PASSWORD = 'BG7QoU5RB9S1bMNDETGOB2H8DVAWaUKjfPcvY8aRgDLa'
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 STATIC_URL = '/static/'
