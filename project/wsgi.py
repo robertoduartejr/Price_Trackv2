@@ -26,8 +26,8 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
 #SOLUTION TO RUN CODE SHOULD BE WRITTEN HERE
 
 
-thread = threading.Thread(target=scrapingscheduler)
-thread.start()
+#thread = threading.Thread(target=scrapingscheduler)
+#thread.start()
 #SOLUTION TO RUN CODE SHOULD BE WRITTEN HERE
 
 from django.core.wsgi import get_wsgi_application
