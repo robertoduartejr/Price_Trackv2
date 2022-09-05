@@ -28,7 +28,9 @@ def scraping(link): #function to perform scrapping
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--no-sandbox")
     navegador = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
-
+    navegador.get("https://www.google.com")
+    print(navegador.page_source)
+    print("chegou aqui3?")
 
 
 
@@ -87,7 +89,7 @@ def waiting():
 
 def scrapingscheduler():  #function to run the scraping in intervals
     scheduler = BlockingScheduler()
-    scheduler.add_job(lambda: updatescraping(Track), 'interval', seconds=10)
+    scheduler.add_job(lambda: updatescraping(Track), 'interval', minutes=1)
     scheduler.start()
 
 def scrapingscheduler2():  # function to run the scraping in intervals

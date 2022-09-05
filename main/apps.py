@@ -16,9 +16,7 @@ class MainConfig(AppConfig):
 
         from backendfunctions import scrapingscheduler
         import threading
-        from selenium import webdriver
-        import os
 
-
+        print("chegou aqui1?")
         thread = threading.Thread(target=scrapingscheduler)
         thread.start()
