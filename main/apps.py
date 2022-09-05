@@ -10,13 +10,12 @@ class MainConfig(AppConfig):
 
 #SOLUTION TO RUN CODE, HOWEVER I'M USING ANOTHER SOLUTION AT WSGI FILE
 
-    def ready(self):
-        if 'runserver' not in sys.argv:
-            return True
-
-        from backendfunctions import scrapingscheduler
-        import threading
-
-        print("chegou aqui1?")
-        thread = threading.Thread(target=scrapingscheduler)
-        thread.start()
+    # pra fazer funcionar é só tirar os comentarios
+    # def ready(self):
+    #
+    #     from backendfunctions import scrapingscheduler
+    #     import threading
+    #
+    #     print("chegou aqui1?")
+    #     thread = threading.Thread(target=scrapingscheduler)
+    #     thread.start()
