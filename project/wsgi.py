@@ -12,10 +12,5 @@ import os
 from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
-import threading
-from backendfunctions import scrapingscheduler
-thread = threading.Thread(target=scrapingscheduler)
-thread.start()
-
 
 application = get_wsgi_application()
