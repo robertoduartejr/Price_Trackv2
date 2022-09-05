@@ -72,7 +72,16 @@ def updatescraping(Track):
             send_email_price(object.user.email,object.desired_price,value,object.name,object.user,object.url)
             print("mandou")
 
+def waiting():
+    for i in range(10000):
+        print(i)
+
 def scrapingscheduler():  #function to run the scraping in intervals
     scheduler = BlockingScheduler()
     scheduler.add_job(lambda: updatescraping(Track), 'interval', minutes=5)
+    scheduler.start()
+
+def scrapingscheduler2():  # function to run the scraping in intervals
+    scheduler = BlockingScheduler()
+    scheduler.add_job(waiting, 'interval', seconds=5)
     scheduler.start()
