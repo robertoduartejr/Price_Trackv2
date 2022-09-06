@@ -10,91 +10,10 @@ https://docs.djangoproject.com/en/4.1/howto/deployment/wsgi/
 import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
 
-import threading
-from apscheduler.schedulers.blocking import BlockingScheduler
-from track.models import Track
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from datetime import datetime
-from django.core.mail import send_mail
-from selenium import webdriver
-import os
-
-def send_email_confirmation(form):
-    # form.instance.user = self.request.user
-    # if form.instance.user:
-    send_mail('Welcome to Track Price', f'Dear, {form.cleaned_data["username"]}.\n\nWelcome to Track Price. \n\nWe hope you may enjoy our tool.\n\nLink: https://pricetrackdjango.herokuapp.com/\n\nAtt, team.', 'trackpricedjango@gmail.com', [form.cleaned_data['email']],fail_silently=False)
-
-
-def send_email_price(email,desired_price, price, name,user,link):
-    send_mail(f'{name} below R$ {desired_price}!!! ',f'Dear, {user}.\n\nThe price of {name} is R$ {price}.\n\nIt is below the one you set as desired (R$ {desired_price})\n\nI suggest you run in order not to miss the chance. \n\n Item link: {link}\n\nAtt, Track Price team.','trackpricedjango@gmail.com', [email], fail_silently=False)
-
-def scraping(link): #function to perform scrapping
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--no-sandbox")
-    navegador = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
-    navegador.get(link)
-    if 'amazon' in link:
-        elemento = float(navegador.find_element(By.XPATH, '//*[@id="corePrice_feature_div"]/div/span/span[2]/span[2]').text.replace(".",""))
-        return elemento
-
-    elif "mercadolivre" in link: #mercadolivre has two different kind of pages.
-        try:
-            elemento=float(navegador.find_element(By.XPATH,'//*[@id="price"]/div/div[1]/span/span[3]').text.replace(".","").replace(",","."))
-            return elemento
-        except:
-            elemento = float(navegador.find_element(By.XPATH, '//*[@id="ui-pdp-main-container"]/div[1]/div/div[1]/div[2]/div[3]/div[1]/span[1]/span[3]').text.replace(".","").replace(",","."))
-            return elemento
-
-    elif 'magazineluiza' in link: #magazine has a differente way when the product is on sale the xpath is different
-        try:#first I check if xpathp[3] exists, if it exists price is xpath p[2], if it doesn't price is xpath p[1]
-            elemento = navegador.find_element(By.XPATH, '//*[@id="__next"]/div/main/section[4]/div[4]/div/div/div/p[3]').text.strip("R$ ").replace(".","").replace(",",".")
-            elemento = navegador.find_element(By.XPATH,'//*[@id="__next"]/div/main/section[4]/div[4]/div/div/div/p[2]').text.strip("R$ ").replace(".","").replace(",",".")
-            return float(elemento)
-        except:
-            elemento = navegador.find_element(By.XPATH,'//*[@id="__next"]/div/main/section[4]/div[4]/div/div/div/p[1]').text.strip("R$ ").replace(".","").replace(",",".")
-            return float(elemento)
-
-    elif 'americanas' in link: #americanas has a differente way when the product is on sale the xpath is different
-        elemento = navegador.find_element(By.XPATH, '//*[@id="rsyswpsdk"]/div/main/div[2]/div[2]/div[1]/div[2]/div').text.strip("R$ ").replace(".","").replace(",",".")
-        if elemento == "":
-            elemento = navegador.find_element(By.XPATH,'//*[@id="rsyswpsdk"]/div/main/div[2]/div[2]/div[1]/div[1]/div').text.strip("R$ ").replace(".", "").replace(",", ".")
-            return float(elemento)
-        return float(elemento)
-
-    else:
-        return None
-
-def updatescraping(Track):
-    objects = Track.objects.all()
-    for object in objects:
-        value = scraping(object.url)
-        data = object.prices['data']
-        date = datetime.now() #get current data and hour
-        first_string = date.strftime("%B %d, %Y %A, %H:%M:%S") #make it string format
-
-        new_data = [first_string,value]
-        data.append(new_data)
-        object.prices['data'] = data
-        object.save()
-        if value<=object.desired_price:
-            send_email_price(object.user.email,object.desired_price,value,object.name,object.user,object.url)
-
-def waiting():
-    for i in range(10000):
-        print(i)
-
-def scrapingscheduler():  #function to run the scraping in intervals
-    scheduler = BlockingScheduler()
-    scheduler.add_job(lambda: updatescraping(Track), 'interval', minutes=2)
-    scheduler.start()
-
-
-thread = threading.Thread(target=scrapingscheduler)
-thread.start()
+# import threading
+# from backendfunctions import scrapingscheduler
+# thread = threading.Thread(target=scrapingscheduler)
+# thread.start()
 
 
 from django.core.wsgi import get_wsgi_application
