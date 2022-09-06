@@ -13,9 +13,7 @@ import main.models
 
 
 def get_default_json():
-    first = datetime.now()
-    first = first.strftime("%B %d, %Y %A, %H:%M:%S")
-    return {"data": [["date", "price"], [first, 100]]}
+    return {"data": [["date", "price"]]}
 
 class NameField(models.CharField): #function
 
