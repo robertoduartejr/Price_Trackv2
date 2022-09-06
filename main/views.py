@@ -27,7 +27,7 @@ def register(request):
             return redirect('home')
         messages.error(request, "Falha no cadastro do usuário.")
     form = NovoUsuarioForm()
-    context = {'form': form, 'json': "teste"}
+    context = {'form': form}
     return render(request, template_name='main/register.html', context=context)
 
 
