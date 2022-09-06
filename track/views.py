@@ -4,7 +4,7 @@ from .models import Track
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .forms import TrackForm
 
-# Create your views here.
+# Create views here.
 
 class ListaTrackView(ListView):
     model = Track
@@ -45,4 +45,7 @@ def chart(request, pk):
     tracks = Track.objects.filter(pk=pk)
     tracks = tracks.first()
     tracks = tracks.prices["data"]
-    return render(request, 'track/chart.html',{'tracks': tracks})
+    product = Track.objects.filter(pk=pk)
+    product = product.first()
+    product = product.name
+    return render(request, 'track/chart.html',{'tracks': tracks, 'product': product })

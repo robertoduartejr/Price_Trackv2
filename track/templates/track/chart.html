@@ -6,19 +6,20 @@
 <html>
   <head>
     {{ tracks|json_script:"mytrack" }}
-
+    {{ product|json_script:"myproduct" }}
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
       const mydata = JSON.parse(document.getElementById('mytrack').textContent);
+      const myproduct = JSON.parse(document.getElementById('myproduct').textContent)
 
       function drawChart() {
         var data = google.visualization.arrayToDataTable(mydata);
 
         var options = {
-          title: 'Company Performance',
+          title: myproduct,
           curveType: 'function',
           legend: { position: 'bottom' }
         };
