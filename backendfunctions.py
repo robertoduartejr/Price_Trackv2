@@ -100,7 +100,7 @@ def waiting():
 
 def scrapingscheduler():  #function to run the scraping in intervals
     scheduler = BlockingScheduler()
-    scheduler.add_job(lambda: updatescraping(Track), 'interval', seconds=100)
+    scheduler.add_job(lambda: updatescraping(Track), 'interval', minutes=2)
     scheduler.start()
 
 # def scrapingscheduler2():  # function to run the scraping in intervals
