@@ -8,9 +8,9 @@ class MainConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'main'
 
-SOLUTION TO RUN CODE, HOWEVER I'M USING ANOTHER SOLUTION AT WSGI FILE
+# SOLUTION TO RUN CODE, HOWEVER I'M USING ANOTHER SOLUTION AT WSGI FILE
 
-    pra fazer funcionar é só tirar os comentarios
+    # pra fazer funcionar é só tirar os comentarios
     def ready(self):
         from backendfunctions import scrapingscheduler
         import threading
