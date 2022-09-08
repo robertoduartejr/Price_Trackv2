@@ -24,35 +24,48 @@ def send_email_price(email,desired_price, price, name,user,link):
 def scraping(link): #function to perform scrapping
     navegador = webdriver.Chrome()
     navegador.get(link)
-    if 'amazon' in link:
-        elemento = float(navegador.find_element(By.XPATH, '//*[@id="corePrice_feature_div"]/div/span/span[2]/span[2]').text.replace(".",""))
-        return elemento
-
-    elif "mercadolivre" in link: #mercadolivre has two different kind of pages.
-        try:
-            elemento=float(navegador.find_element(By.XPATH,'//*[@id="price"]/div/div[1]/span/span[3]').text.replace(".","").replace(",","."))
-            return elemento
-        except:
-            elemento = float(navegador.find_element(By.XPATH, '//*[@id="ui-pdp-main-container"]/div[1]/div/div[1]/div[2]/div[3]/div[1]/span[1]/span[3]').text.replace(".","").replace(",","."))
+    try:
+        if 'amazon.com.br/' in link:
+            if link == 'https://www.amazon.com.br/':
+                return None
+            elemento = float(navegador.find_element(By.XPATH, '//*[@id="corePrice_feature_div"]/div/span/span[2]/span[2]').text.replace(".",""))
             return elemento
 
-    elif 'magazineluiza' in link: #magazine has a differente way when the product is on sale the xpath is different
-        try:#first I check if xpathp[3] exists, if it exists price is xpath p[2], if it doesn't price is xpath p[1]
-            elemento = navegador.find_element(By.XPATH, '//*[@id="__next"]/div/main/section[4]/div[4]/div/div/div/p[3]').text.strip("R$ ").replace(".","").replace(",",".")
-            elemento = navegador.find_element(By.XPATH,'//*[@id="__next"]/div/main/section[4]/div[4]/div/div/div/p[2]').text.strip("R$ ").replace(".","").replace(",",".")
-            return float(elemento)
-        except:
-            elemento = navegador.find_element(By.XPATH,'//*[@id="__next"]/div/main/section[4]/div[4]/div/div/div/p[1]').text.strip("R$ ").replace(".","").replace(",",".")
+        elif "mercadolivre.com.br/" in link: #mercadolivre has two different kind of pages.
+            if link == 'https://www.mercadolivre.com.br/':
+                return None
+            try:
+                elemento=float(navegador.find_element(By.XPATH,'//*[@id="price"]/div/div[1]/span/span[3]').text.replace(".","").replace(",","."))
+                return elemento
+            except:
+                elemento = float(navegador.find_element(By.XPATH, '//*[@id="ui-pdp-main-container"]/div[1]/div/div[1]/div[2]/div[3]/div[1]/span[1]/span[3]').text.replace(".","").replace(",","."))
+                return elemento
+
+        elif 'magazineluiza.com.br/' in link: #magazine has a differente way when the product is on sale the xpath is different
+            if link == 'https://www.magazineluiza.com.br/':
+                return None
+            try:#first I check if xpathp[3] exists, if it exists price is xpath p[2], if it doesn't price is xpath p[1]
+                elemento = navegador.find_element(By.XPATH, '//*[@id="__next"]/div/main/section[4]/div[4]/div/div/div/p[3]').text.strip("R$ ").replace(".","").replace(",",".")
+                elemento = navegador.find_element(By.XPATH,'//*[@id="__next"]/div/main/section[4]/div[4]/div/div/div/p[2]').text.strip("R$ ").replace(".","").replace(",",".")
+                return float(elemento)
+            except:
+                elemento = navegador.find_element(By.XPATH,'//*[@id="__next"]/div/main/section[4]/div[4]/div/div/div/p[1]').text.strip("R$ ").replace(".","").replace(",",".")
+                print(elemento)
+                return float(elemento)
+
+
+        elif 'americanas.com.br' in link: #americanas has a differente way when the product is on sale the xpath is different
+            if link == 'https://www.americanas.com.br/':
+                return None
+            elemento = navegador.find_element(By.XPATH, '//*[@id="rsyswpsdk"]/div/main/div[2]/div[2]/div[1]/div[2]/div').text.strip("R$ ").replace(".","").replace(",",".")
+            if elemento == "":
+                elemento = navegador.find_element(By.XPATH,'//*[@id="rsyswpsdk"]/div/main/div[2]/div[2]/div[1]/div[1]/div').text.strip("R$ ").replace(".", "").replace(",", ".")
+                return float(elemento)
             return float(elemento)
 
-    elif 'americanas' in link: #americanas has a differente way when the product is on sale the xpath is different
-        elemento = navegador.find_element(By.XPATH, '//*[@id="rsyswpsdk"]/div/main/div[2]/div[2]/div[1]/div[2]/div').text.strip("R$ ").replace(".","").replace(",",".")
-        if elemento == "":
-            elemento = navegador.find_element(By.XPATH,'//*[@id="rsyswpsdk"]/div/main/div[2]/div[2]/div[1]/div[1]/div').text.strip("R$ ").replace(".", "").replace(",", ".")
-            return float(elemento)
-        return float(elemento)
-
-    else:
+        else:
+            return None
+    except:
         return None
 
 def updatescraping(Track):
@@ -67,6 +80,8 @@ def updatescraping(Track):
         data.append(new_data)
         object.prices['data'] = data
         object.save()
+        if value == None: #if para evitar erro de comparar null com float
+            value = 100000000
         if value<=object.desired_price:
             send_email_price(object.user.email,object.desired_price,value,object.name,object.user,object.url)
 
@@ -76,7 +91,7 @@ def waiting():
 
 def scrapingscheduler():  #function to run the scraping in intervals
     scheduler = BlockingScheduler()
-    scheduler.add_job(lambda: updatescraping(Track), 'interval', hours=1)
+    scheduler.add_job(lambda: updatescraping(Track), 'interval', seconds=30)
     scheduler.start()
 
 # def scrapingscheduler2():  # function to run the scraping in intervals

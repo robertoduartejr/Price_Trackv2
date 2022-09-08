@@ -14,7 +14,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
 # from backendfunctions import scrapingscheduler
 # thread = threading.Thread(target=scrapingscheduler)
 # thread.start()
-
+#
 
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
