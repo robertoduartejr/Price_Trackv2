@@ -13,7 +13,7 @@ import main.models
 
 
 def get_default_json():
-    return {"data": [[None, "price"]]}
+    return {"data": [["date", "price"],["Default Start", 0]]}
 
 class NameField(models.CharField): #function
 
