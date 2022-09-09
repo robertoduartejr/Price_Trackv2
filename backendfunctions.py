@@ -1,3 +1,5 @@
+
+
 from django.core.mail import send_mail
 import smtplib
 import threading
@@ -24,13 +26,13 @@ def send_email_price(email,desired_price, price, name,user,link):
 
 def scraping(link): #function to perform scrapping
 
-    # chrome_options = webdriver.ChromeOptions()
-    # chrome_options.add_argument("--headless")
-    # chrome_options.add_argument("--disable-dev-shm-usage")
-    # chrome_options.add_argument("--no-sandbox")
-    # chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-    # navegador = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
-    navegador = webdriver.Chrome()
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    navegador = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+    # navegador = webdriver.Chrome()
 
     navegador.get(link)
     try:
@@ -99,9 +101,14 @@ def waiting():
         print(i)
 
 def scrapingscheduler():  #function to run the scraping in intervals
-    scheduler = BlockingScheduler()
-    scheduler.add_job(lambda: updatescraping(Track), 'interval', minutes=5)
-    scheduler.start()
+    #scheduler = BlockingScheduler()
+    #scheduler.add_job(lambda: updatescraping(Track), 'interval', minutes=30)
+    sched = BlockingScheduler()
+    @sched.scheduled_job('interval', seconds=100)
+    def timed_job():
+        updatescraping(Track)
+
+    sched.start()
 
 # def scrapingscheduler2():  # function to run the scraping in intervals
 #     scheduler = BlockingScheduler()
